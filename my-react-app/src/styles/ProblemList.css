@@ -1,0 +1,328 @@
+.problem-list-page {
+  min-height: 100vh;
+  background: #f7f7f8;
+  padding: 40px;
+  color: #262626;
+}
+
+.problem-list-header {
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+.problem-list-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.problem-list-header p {
+  margin-top: 7px;
+  color: #737373;
+  font-size: 14px;
+}
+
+/* Layout */
+
+.problem-list-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 24px;
+}
+
+/* Filters */
+
+.problem-filters {
+  background: white;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+
+  padding: 20px;
+
+  height: fit-content;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 22px;
+}
+
+.filter-header h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.clear-filter-button {
+  border: none;
+  background: none;
+
+  color: #737373;
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.clear-filter-button:hover {
+  color: #262626;
+}
+
+.filter-section {
+  margin-bottom: 24px;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-section > label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.filter-section input {
+  box-sizing: border-box;
+  width: 100%;
+
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+
+  padding: 9px 10px;
+
+  outline: none;
+}
+
+.filter-section input:focus {
+  border-color: #a3a3a3;
+}
+
+/* Difficulty filters */
+
+.difficulty-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.difficulty-filter {
+  border: none;
+  border-radius: 5px;
+
+  background: transparent;
+
+  padding: 8px 10px;
+
+  text-align: left;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.difficulty-filter:hover {
+  background: #f5f5f5;
+}
+
+.difficulty-filter.active {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+
+/* Tags */
+
+.tag-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.tag-filter {
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+
+  background: #f5f5f5;
+
+  padding: 5px 10px;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.tag-filter:hover {
+  background: #e8e8e8;
+}
+
+.tag-filter.active {
+  background: #262626;
+  color: white;
+  border-color: #262626;
+}
+
+/* Table */
+
+.problem-table-container {
+  background: white;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+
+  overflow: hidden;
+}
+
+.problem-table-header {
+  padding: 15px 18px;
+
+  border-bottom: 1px solid #e5e5e5;
+
+  color: #737373;
+  font-size: 13px;
+}
+
+.problem-table {
+  width: 100%;
+}
+
+.problem-row {
+  display: grid;
+  grid-template-columns: 70px minmax(220px, 2fr) 130px 2fr;
+
+  align-items: center;
+
+  min-height: 60px;
+
+  padding: 0 18px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.problem-row:last-child {
+  border-bottom: none;
+}
+
+.problem-row:not(.table-head):hover {
+  background: #fafafa;
+}
+
+.problem-row.table-head {
+  min-height: 45px;
+
+  background: #fafafa;
+
+  color: #737373;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: default;
+}
+
+/* Status */
+
+.problem-status {
+  font-size: 18px;
+}
+
+.solved-icon {
+  color: #22a06b;
+  font-weight: 600;
+}
+
+.unsolved-icon {
+  color: #a3a3a3;
+}
+
+/* Title */
+
+.problem-title {
+  font-weight: 500;
+}
+
+/* Difficulty */
+
+.difficulty {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.difficulty.easy {
+  color: #00af9b;
+}
+
+.difficulty.medium {
+  color: #ffb800;
+}
+
+.difficulty.hard {
+  color: #ff375f;
+}
+
+/* Problem tags */
+
+.problem-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.problem-tag {
+  background: #f0f0f0;
+
+  border-radius: 12px;
+
+  padding: 4px 8px;
+
+  color: #646464;
+
+  font-size: 11px;
+}
+
+/* Empty */
+
+.no-problems {
+  padding: 50px;
+
+  text-align: center;
+
+  color: #737373;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .problem-list-page {
+    padding: 20px;
+  }
+
+  .problem-list-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .difficulty-filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .problem-row {
+    grid-template-columns: 40px 1fr 90px;
+  }
+
+  .problem-row > :last-child {
+    display: none;
+  }
+}

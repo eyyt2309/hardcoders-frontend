@@ -1,0 +1,26 @@
+import axios from "axios";
+
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
+});
+
+function getCookie(name) {
+  const value = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(name + "="));
+
+  return value ? decodeURIComponent(value.split("=")[1]) : null;
+}
+
+apiClient.interceptors.request.use((config) => {
+  const csrfToken = getCookie("csrftoken");
+
+  if (csrfToken) {
+    config.headers["X-CSRFToken"] = csrfToken;
+  }
+
+  return config;
+});
+
+export default apiClient;

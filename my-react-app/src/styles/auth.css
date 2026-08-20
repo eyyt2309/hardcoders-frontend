@@ -1,0 +1,315 @@
+.login-page,
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+.login-container,
+.register-container {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 36px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.login-container h1,
+.register-container h1 {
+  text-align: center;
+  margin-bottom: 28px;
+  color: #222;
+  font-size: 30px;
+}
+
+.login-container form,
+.register-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-container form > div,
+.register-container form > div,
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.login-container label,
+.register-container label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+.login-container input,
+.register-container input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-container input:focus,
+.register-container input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.login-container button,
+.register-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.login-container button:hover,
+.register-container button:hover {
+  background: #1d4ed8;
+}
+
+.login-container button:active,
+.register-container button:active {
+  transform: scale(0.98);
+}
+
+.login-container p,
+.register-container p {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-container a,
+.register-container a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-container a:hover,
+.register-container a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+  .login-container,
+  .register-container {
+    padding: 28px 22px;
+  }
+
+  .login-container h1,
+  .register-container h1 {
+    font-size: 26px;
+  }
+}
+
+.validate-page {
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+.validate-container {
+  width: 100%;
+  max-width: 420px;
+
+  background: white;
+
+  padding: 36px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.validate-container h1 {
+  margin: 0 0 12px;
+
+  text-align: center;
+
+  font-size: 30px;
+  color: #222;
+}
+
+.validate-description {
+  margin-bottom: 28px;
+
+  text-align: center;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  color: #666;
+}
+
+.validate-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.validate-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.validate-container label {
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #444;
+}
+
+.otp-input {
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  box-sizing: border-box;
+
+  font-size: 26px;
+  font-weight: 600;
+
+  text-align: center;
+  letter-spacing: 10px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.otp-input:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.validate-container form > button {
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2563eb;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.validate-container form > button:hover {
+  background: #1d4ed8;
+}
+
+.validate-container form > button:active {
+  transform: scale(0.98);
+}
+
+.validate-container form > button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.resend-text {
+  margin-top: 22px;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  color: #666;
+}
+
+.resend-button {
+  padding: 0;
+
+  border: none;
+  background: none;
+
+  color: #2563eb;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.resend-button:hover {
+  text-decoration: underline;
+}
+
+.validate-container a {
+  color: #2563eb;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.validate-container a:hover {
+  text-decoration: underline;
+}
+
+.validate-container p {
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .validate-container {
+    padding: 28px 22px;
+  }
+
+  .validate-container h1 {
+    font-size: 26px;
+  }
+
+  .otp-input {
+    font-size: 22px;
+    letter-spacing: 8px;
+  }
+}

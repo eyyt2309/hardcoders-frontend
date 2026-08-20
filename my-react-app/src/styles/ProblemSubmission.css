@@ -1,0 +1,648 @@
+.problem-submission-page {
+  height: calc(100vh - 60px);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 6px;
+
+  padding: 6px;
+
+  background: #1a1a1a;
+
+  overflow: hidden;
+}
+
+/* -------------------------
+   LEFT SIDE
+-------------------------- */
+
+.problem-description-panel {
+  background: white;
+
+  border-radius: 8px;
+
+  overflow-y: auto;
+}
+
+.problem-description-content {
+  padding: 28px;
+}
+
+.problem-title-section {
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.problem-title-section h1 {
+  margin: 0 0 14px;
+
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.problem-meta {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+/* Difficulty */
+
+.problem-difficulty {
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.problem-difficulty.easy {
+  color: #00a878;
+  background: rgba(0, 168, 120, 0.1);
+}
+
+.problem-difficulty.medium {
+  color: #e99c00;
+  background: rgba(233, 156, 0, 0.1);
+}
+
+.problem-difficulty.hard {
+  color: #ef4743;
+  background: rgba(239, 71, 67, 0.1);
+}
+
+/* Tags */
+
+.problem-tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.problem-tag {
+  padding: 5px 9px;
+
+  background: #f0f0f0;
+
+  border-radius: 12px;
+
+  color: #666;
+
+  font-size: 11px;
+}
+
+/* Sections */
+
+.problem-section {
+  margin-top: 28px;
+}
+
+.problem-section h3 {
+  margin-bottom: 12px;
+
+  font-size: 16px;
+}
+
+.problem-description {
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+}
+
+.problem-section p {
+  line-height: 1.7;
+}
+
+.example-box {
+  padding: 16px;
+
+  background: #f7f7f8;
+
+  border-radius: 6px;
+}
+
+.example-box > div {
+  margin-bottom: 15px;
+}
+
+.example-box > div:last-child {
+  margin-bottom: 0;
+}
+
+.example-box pre,
+.constraints {
+  margin: 8px 0 0;
+
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  white-space: pre-wrap;
+}
+
+.constraints {
+  padding: 15px;
+
+  background: #f7f7f8;
+
+  border-radius: 6px;
+}
+
+/* -------------------------
+   RIGHT SIDE
+-------------------------- */
+
+.submission-panel {
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-rows:
+    44px
+    minmax(250px, 1fr)
+    minmax(180px, 0.45fr)
+    56px;
+
+  background: #1e1e1e;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+}
+
+/* -------------------------
+   EDITOR HEADER
+-------------------------- */
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 14px;
+
+  background: #262626;
+
+  border-bottom: 1px solid #333;
+
+  color: #ddd;
+}
+
+.editor-header-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.language-select {
+  padding: 5px 9px;
+
+  border: 1px solid #444;
+  border-radius: 5px;
+
+  background: #333;
+  color: #ddd;
+
+  outline: none;
+
+  font-size: 12px;
+}
+
+/* -------------------------
+   MONACO EDITOR
+-------------------------- */
+
+.submission-editor {
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+.submission-editor .form-group {
+  height: 100%;
+
+  margin: 0;
+}
+
+/* -------------------------
+   TEST CASE PANEL
+-------------------------- */
+
+.test-case-panel {
+  min-height: 0;
+
+  padding: 12px 14px;
+
+  background: #262626;
+
+  border-top: 1px solid #333;
+
+  overflow-y: auto;
+
+  color: #ddd;
+}
+
+.test-case-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* -------------------------
+   TEST CASE TABS
+-------------------------- */
+
+.test-case-tabs {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin-bottom: 12px;
+}
+
+.test-case-tab {
+  display: flex;
+  align-items: center;
+
+  padding: 6px 12px;
+
+  border: none;
+  border-radius: 5px;
+
+  background: #333;
+  color: #aaa;
+
+  cursor: pointer;
+
+  font-size: 12px;
+}
+
+.test-case-tab:hover {
+  background: #3a3a3a;
+}
+
+.test-case-tab.active {
+  background: #454545;
+  color: white;
+}
+
+/* -------------------------
+   TEST VALUES
+-------------------------- */
+
+.test-case-content {
+  width: 100%;
+}
+
+.test-value {
+  margin-top: 10px;
+}
+
+.test-value label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #a3a3a3;
+
+  font-size: 12px;
+}
+
+.test-value pre {
+  margin: 0;
+
+  padding: 10px;
+
+  background: #333;
+
+  border: none;
+  border-radius: 5px;
+
+  color: #eee;
+
+  font-family: "SFMono-Regular", Consolas, monospace;
+
+  font-size: 13px;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* -------------------------
+   RESULT
+-------------------------- */
+
+.run-result {
+  width: 100%;
+
+  background: transparent;
+}
+
+.result-status-section {
+  margin: 0;
+
+  padding: 0;
+
+  background: transparent;
+
+  border: none;
+}
+
+.result-status {
+  display: inline-block;
+
+  width: fit-content;
+
+  margin: 5px 0 10px;
+
+  padding: 0;
+
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  box-shadow: none;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.result-status.accepted {
+  color: #2cbb5d;
+
+  background: transparent;
+
+  border: none;
+}
+
+.result-status.wrong_answer,
+.result-status.runtime_error,
+.result-status.time_limit,
+.result-status.memory_limit,
+.result-status.error {
+  color: #ef4743;
+
+  background: transparent;
+
+  border: none;
+}
+
+/* -------------------------
+   HEADER STATUS
+-------------------------- */
+
+.run-status {
+  display: inline-block;
+
+  width: fit-content;
+
+  margin: 0;
+
+  padding: 0;
+
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  box-shadow: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-transform: capitalize;
+}
+
+.run-status.accepted {
+  color: #2cbb5d;
+
+  background: transparent;
+
+  border: none;
+}
+
+.run-status.wrong_answer,
+.run-status.runtime_error,
+.run-status.time_limit,
+.run-status.memory_limit,
+.run-status.error {
+  color: #ef4743;
+
+  background: transparent;
+
+  border: none;
+}
+
+/* -------------------------
+   TEST CASE RESULT ICONS
+-------------------------- */
+
+.test-case-result-icon {
+  margin-left: 5px;
+
+  background: transparent;
+
+  border: none;
+
+  font-weight: 700;
+}
+
+.test-case-result-icon.accepted {
+  color: #2cbb5d;
+}
+
+.test-case-result-icon.wrong_answer,
+.test-case-result-icon.runtime_error,
+.test-case-result-icon.time_limit,
+.test-case-result-icon.memory_limit,
+.test-case-result-icon.error {
+  color: #ef4743;
+}
+
+/* -------------------------
+   METRICS
+-------------------------- */
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 10px;
+
+  margin: 14px 0;
+}
+
+.metric-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  padding: 10px 12px;
+
+  background: #333;
+
+  border: none;
+  border-radius: 6px;
+}
+
+.metric-label {
+  color: #999;
+
+  font-size: 11px;
+}
+
+.metric-value {
+  color: #eee;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  overflow-wrap: anywhere;
+}
+
+/* -------------------------
+   ERROR OUTPUT
+-------------------------- */
+
+.error-output pre {
+  color: #ff6b6b;
+
+  background: #2d1f1f;
+
+  border: 1px solid #5c2b2b;
+}
+
+/* -------------------------
+   ACTIONS
+-------------------------- */
+
+.submission-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  padding: 0 14px;
+
+  background: #262626;
+
+  border-top: 1px solid #333;
+}
+
+.run-button,
+.submit-button {
+  padding: 8px 18px;
+
+  border: none;
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.run-button {
+  background: #444;
+  color: white;
+}
+
+.run-button:hover:not(:disabled) {
+  background: #505050;
+}
+
+.submit-button {
+  background: #2cbb5d;
+  color: white;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #25a950;
+}
+
+.run-button:disabled,
+.submit-button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+/* -------------------------
+   LOADING / ERROR STATES
+-------------------------- */
+
+.problem-submission-loading,
+.problem-submission-error {
+  padding: 50px;
+
+  text-align: center;
+}
+
+/* -------------------------
+   RESPONSIVE METRICS
+-------------------------- */
+
+@media (max-width: 1100px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* -------------------------
+   MOBILE
+-------------------------- */
+
+@media (max-width: 900px) {
+  .problem-submission-page {
+    height: auto;
+
+    grid-template-columns: 1fr;
+
+    overflow: visible;
+  }
+
+  .problem-description-panel {
+    max-height: none;
+  }
+
+  .submission-panel {
+    height: 800px;
+  }
+}
+
+/* -------------------------
+   STATUS RESET
+   Prevents white bars /
+   inherited global styles
+-------------------------- */
+
+.test-case-panel .run-status,
+.test-case-panel .result-status,
+.test-case-panel .result-status-section {
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  box-shadow: none;
+}
+
+.test-case-panel .run-status,
+.test-case-panel .result-status {
+  width: fit-content;
+
+  padding: 0;
+}

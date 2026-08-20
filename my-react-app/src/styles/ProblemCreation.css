@@ -1,0 +1,284 @@
+.problem-creation-page {
+  min-height: 100vh;
+  background: #f7f7f8;
+  padding: 40px;
+  color: #262626;
+}
+
+.problem-creation-header {
+  max-width: 1100px;
+  margin: 0 auto 24px auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.problem-creation-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.problem-creation-header p {
+  margin: 6px 0 0;
+  color: #737373;
+  font-size: 14px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.problem-form {
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.problem-section {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.section-heading {
+  margin-bottom: 22px;
+}
+
+.section-heading h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.section-heading p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: #737373;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+
+  background: white;
+  color: #262626;
+
+  padding: 11px 12px;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #262626;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.form-group textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.input-hint {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.two-column-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.code-textarea,
+.code-editor {
+  font-family:
+    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace !important;
+
+  background: #fafafa !important;
+}
+
+.code-editor {
+  background: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  border-color: #333 !important;
+
+  line-height: 1.6 !important;
+  tab-size: 4;
+}
+
+.code-editor:focus {
+  border-color: #525252 !important;
+}
+
+.test-case-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.test-case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.test-case {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 18px;
+  background: #fafafa;
+}
+
+.test-case-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 15px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.add-test-button {
+  border: 1px solid #d4d4d4;
+  background: white;
+  color: #262626;
+
+  padding: 8px 13px;
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.add-test-button:hover {
+  background: #f5f5f5;
+}
+
+.remove-test-button {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+
+  font-size: 12px;
+  cursor: pointer;
+
+  padding: 5px;
+}
+
+.remove-test-button:hover {
+  text-decoration: underline;
+}
+
+.cancel-button,
+.publish-button {
+  padding: 10px 17px;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.cancel-button {
+  border: 1px solid #d4d4d4;
+  background: white;
+  color: #404040;
+}
+
+.cancel-button:hover {
+  background: #f5f5f5;
+}
+
+.publish-button {
+  border: none;
+
+  background: #ffa116;
+  color: white;
+}
+
+.publish-button:hover {
+  background: #e9910f;
+}
+
+.bottom-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  padding: 10px 0 30px;
+}
+
+/* Tablet / Mobile */
+
+@media (max-width: 768px) {
+  .problem-creation-page {
+    padding: 20px;
+  }
+
+  .problem-creation-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .header-actions button {
+    flex: 1;
+  }
+
+  .two-column-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .test-case-heading {
+    align-items: flex-start;
+    gap: 15px;
+    flex-direction: column;
+  }
+}
