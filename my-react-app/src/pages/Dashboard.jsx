@@ -10,11 +10,13 @@ import "../styles/dashboard.css";
 function Dashboard() {
   const { user } = useAuth();
   const [userProblem, setUserProblem] = useState(null);
+  const [dailyChallenge, setDailyChallenge] = useState(null);
 
   const getUserProblem = async () => {
     try {
       const response = await apiClient.get("/problems/getUserDashboardInfo/");
-      setUserProblem(response.data);
+      setUserProblem(response.data.user_problem_status);
+      setDailyChallenge(response.data.daily_challenge);
     } catch (error) {
       alert(
         error.response?.data?.error ||
@@ -161,22 +163,34 @@ function Dashboard() {
                 <div>
                   <span className="section-label">DAILY CHALLENGE</span>
 
-                  <h2>Maximum Depth of Binary Tree</h2>
+                  <h2>{dailyChallenge.title}</h2>
                 </div>
 
-                <span className="difficulty easy">Easy</span>
+                {dailyChallenge?.difficulty === "easy" && (
+                  <span className="difficulty easy">Easy</span>
+                )}
+
+                {dailyChallenge?.difficulty === "medium" && (
+                  <span className="difficulty medium">Medium</span>
+                )}
+
+                {dailyChallenge?.difficulty === "hard" && (
+                  <span className="difficulty hard">Hard</span>
+                )}
               </div>
 
-              <p>Given the root of a binary tree, return its maximum depth.</p>
+              <p>{dailyChallenge.description}.</p>
 
               <div className="problem-tags">
-                <span>Tree</span>
-                <span>DFS</span>
-                <span>BFS</span>
+                {(dailyChallenge?.tags || []).map((tag) => (
+                  <span className="problem-tag" key={tag}>
+                    {tag}
+                  </span>
+                ))}
               </div>
 
               <Link
-                to="/problems/maximum-depth-binary-tree"
+                to={`/problems/${dailyChallenge.slug}`}
                 className="challenge-button"
               >
                 Solve Challenge
@@ -263,6 +277,7 @@ function Dashboard() {
           </section>
 
           {/* Recommended */}
+          {/* TODO */}
           <section className="dashboard-card dashboard-section">
             <div className="section-header">
               <div>

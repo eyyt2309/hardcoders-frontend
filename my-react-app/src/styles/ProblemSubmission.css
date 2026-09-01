@@ -646,3 +646,15 @@
 
   padding: 0;
 }
+
+.editor-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.accepted-checkmark {
+  color: #2cbb5d;
+  font-size: 20px;
+  flex-shrink: 0;
+}

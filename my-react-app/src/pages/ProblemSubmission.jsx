@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import apiClient from "../api/apiClient";
 import CodeEditor from "../components/CodeEditor";
 import NavBar from "../components/NavBar";
+
+import { IoMdCheckmark } from "react-icons/io";
 import "../styles/ProblemSubmission.css";
 
 function ProblemSubmission() {
@@ -16,6 +18,8 @@ function ProblemSubmission() {
 
   const [selectedTestCase, setSelectedTestCase] = useState(0);
 
+  const [pastSubmission, setPastSubmission] = useState(null);
+
   // Stores the metrics returned for each testcase
   const [runResults, setRunResults] = useState([]);
 
@@ -28,11 +32,17 @@ function ProblemSubmission() {
         const response = await apiClient.get(`/problems/${slug}/`);
 
         const problemData = response.data.problem;
+        const pastSubmissionData = response.data.past_submission;
 
         setProblem(problemData);
+        setPastSubmission(pastSubmissionData);
 
-        // Load starter code into Monaco
-        setCode(problemData.starter_code || "");
+        // Load past submission if any else starter code into Monaco
+        if (pastSubmissionData != null) {
+          setCode(pastSubmissionData.code);
+        } else {
+          setCode(problemData.starter_code || "");
+        }
       } catch (error) {
         console.error(error);
         setError("Failed to load problem.");
@@ -250,10 +260,15 @@ function ProblemSubmission() {
 
           <div className="editor-header">
             <div className="editor-header-title">Code</div>
+            <div className="editor-header-right">
+              {pastSubmission?.status === "accepted" && (
+                <IoMdCheckmark className="accepted-checkmark" />
+              )}
 
-            <select className="language-select" defaultValue="python">
-              <option value="python">Python3</option>
-            </select>
+              <select className="language-select" defaultValue="python">
+                <option value="python">Python3</option>
+              </select>
+            </div>
           </div>
 
           {/* Monaco Editor */}
