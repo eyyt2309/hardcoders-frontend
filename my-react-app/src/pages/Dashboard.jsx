@@ -11,12 +11,16 @@ function Dashboard() {
   const { user } = useAuth();
   const [userProblem, setUserProblem] = useState(null);
   const [dailyChallenge, setDailyChallenge] = useState(null);
+  const [recentSubmissions, setRecentSubmissions] = useState(null);
+  const [recommendedProblems, setRecommendedProblems] = useState(null);
 
   const getUserProblem = async () => {
     try {
       const response = await apiClient.get("/problems/getUserDashboardInfo/");
       setUserProblem(response.data.user_problem_status);
       setDailyChallenge(response.data.daily_challenge);
+      setRecentSubmissions(response.data.recent_submissions);
+      setRecommendedProblems(response.data.recommended_problems);
     } catch (error) {
       alert(
         error.response?.data?.error ||
@@ -26,7 +30,7 @@ function Dashboard() {
     }
   };
 
-  const recommendedProblems = [
+  const fallbackRecommendedProblems = [
     {
       id: 1,
       title: "Two Sum",
@@ -53,7 +57,7 @@ function Dashboard() {
     },
   ];
 
-  const recentSubmissions = [
+  const fallbackSubmissions = [
     {
       problem: "Valid Parentheses",
       status: "Accepted",
@@ -277,44 +281,46 @@ function Dashboard() {
           </section>
 
           {/* Recommended */}
-          {/* TODO */}
           <section className="dashboard-card dashboard-section">
             <div className="section-header">
               <div>
                 <h2>Recommended Problems</h2>
-
                 <p>Problems selected based on your progress.</p>
               </div>
 
               <Link to="/problems">View all</Link>
             </div>
 
-            <div className="problem-table">
-              <div className="problem-row problem-table-header">
-                <span>Problem</span>
-                <span>Difficulty</span>
-                <span>Acceptance</span>
-                <span></span>
-              </div>
+            <div className="recommended-list">
+              {(recommendedProblems?.length > 0
+                ? recommendedProblems
+                : fallbackRecommendedProblems
+              ).map((problem) => (
+                <Link
+                  className="recommended-row"
+                  to={`/problems/${problem.slug}`}
+                  key={problem.id}
+                >
+                  <div className="recommended-info">
+                    <span className="recommended-title">
+                      {problem.id}. {problem.title}
+                    </span>
 
-              {recommendedProblems.map((problem) => (
-                <div className="problem-row" key={problem.id}>
-                  <span className="problem-title">
-                    {problem.id}. {problem.title}
-                  </span>
+                    <div className="recommended-tags">
+                      {problem.tags?.map((tag) => (
+                        <span className="recommended-tag" key={tag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
 
                   <span
                     className={`difficulty ${problem.difficulty.toLowerCase()}`}
                   >
                     {problem.difficulty}
                   </span>
-
-                  <span className="acceptance">{problem.acceptance}</span>
-
-                  <Link className="problem-open" to={`/problems/${problem.id}`}>
-                    Solve
-                  </Link>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -324,32 +330,45 @@ function Dashboard() {
             <div className="section-header">
               <div>
                 <h2>Recent Submissions</h2>
-
                 <p>Your latest coding attempts.</p>
               </div>
             </div>
 
             <div className="submissions">
-              {recentSubmissions.map((submission, index) => (
-                <div className="submission-row" key={index}>
-                  <div>
-                    <strong>{submission.problem}</strong>
+              {(recentSubmissions?.length > 0
+                ? recentSubmissions
+                : fallbackSubmissions
+              ).map((submission, index) => (
+                <Link
+                  to={`/problems/${submission.problem__slug}`}
+                  className="submission-row"
+                  key={index}
+                >
+                  <div className="submission-info">
+                    <strong>{submission.problem__title}</strong>
 
                     <span className="submission-meta">
-                      {submission.language} · {submission.time}
+                      {submission.language} ·{" "}
+                      {new Date(submission.submitted_at).toLocaleString()}
                     </span>
                   </div>
 
                   <span
+                    className={`difficulty ${submission.problem__difficulty.toLowerCase()}`}
+                  >
+                    {submission.problem__difficulty}
+                  </span>
+
+                  <span
                     className={
-                      submission.status === "Accepted"
+                      submission.status === "accepted"
                         ? "submission-status accepted"
                         : "submission-status rejected"
                     }
                   >
                     {submission.status}
                   </span>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
