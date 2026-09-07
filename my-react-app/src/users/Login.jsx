@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import apiClient from "../api/apiClient";
+import apiClient, { setCsrfToken } from "../api/apiClient";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -25,14 +25,19 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
-
     try {
+      // Login using current CSRF token
       await apiClient.post("/auth/login/", formData);
+
+      // Django rotates the CSRF token after login,
+      // so fetch and store the new one
+      const csrfResponse = await apiClient.get("/auth/csrf/");
+      setCsrfToken(csrfResponse.data.csrfToken);
+
+      // Verify session authentication
       await checkAuth();
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 2000);
+
+      navigate("/dashboard");
     } catch (error) {
       alert(
         error.response?.data?.error ||

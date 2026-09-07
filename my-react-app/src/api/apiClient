@@ -5,17 +5,13 @@ const apiClient = axios.create({
   withCredentials: true,
 });
 
-function getCookie(name) {
-  const value = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith(name + "="));
+let csrfToken = null;
 
-  return value ? decodeURIComponent(value.split("=")[1]) : null;
+export function setCsrfToken(token) {
+  csrfToken = token;
 }
 
 apiClient.interceptors.request.use((config) => {
-  const csrfToken = getCookie("csrftoken");
-
   if (csrfToken) {
     config.headers["X-CSRFToken"] = csrfToken;
   }

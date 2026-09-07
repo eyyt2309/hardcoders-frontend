@@ -1,23 +1,45 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Register from "./users/Register";
 import Login from "./users/Login";
 import Validate from "./users/Validate";
-import apiClient from "./api/apiClient";
+
+import apiClient, { setCsrfToken } from "./api/apiClient";
+
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
+
 import ProblemSubmission from "./pages/ProblemSubmission";
 import ProblemCreation from "./pages/ProblemCreation";
 import ProblemList from "./pages/ProblemList";
 
 function App() {
+  const [csrfReady, setCsrfReady] = useState(false);
+
   useEffect(() => {
-    apiClient.get("/auth/csrf/");
+    const initializeCsrf = async () => {
+      try {
+        const response = await apiClient.get("/auth/csrf/");
+
+        setCsrfToken(response.data.csrfToken);
+        setCsrfReady(true);
+      } catch (error) {
+        console.error("Failed to initialize CSRF:", error);
+      }
+    };
+
+    initializeCsrf();
   }, []);
+
+  if (!csrfReady) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Routes>
       {/* No requirement */}
@@ -26,7 +48,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/validate" element={<Validate />} />
 
-      {/* Must be logged in user*/}
+      {/* Must be logged in user */}
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
