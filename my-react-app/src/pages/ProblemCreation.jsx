@@ -34,6 +34,13 @@ function ProblemCreation() {
     },
   ]);
 
+  // Natural language prompt entered by the user
+  const [problemPrompt, setProblemPrompt] = useState("");
+
+  // AI generation state
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationError, setGenerationError] = useState("");
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
@@ -75,6 +82,109 @@ function ProblemCreation() {
     setTestCases((prev) => prev.filter((_, i) => i !== index));
   }
 
+  // ============================================
+  // AI PROBLEM PARAMETER GENERATION
+  // ============================================
+
+  async function handleGenerateProblemParameters() {
+    const prompt = problemPrompt.trim();
+
+    if (!prompt) {
+      console.log("STOPPED: prompt was empty");
+
+      setGenerationError("Please describe the problem you want to generate.");
+
+      return;
+    }
+
+    setIsGenerating(true);
+    setGenerationError("");
+
+    try {
+      const response = await apiClient.post(
+        "/problems/generateProblemParameters/",
+        {
+          prompt: prompt,
+        },
+      );
+
+      const generatedFormData =
+        response.data.problem_creation_params ??
+        response.data.formData ??
+        response.data;
+
+      if (!generatedFormData || typeof generatedFormData !== "object") {
+        throw new Error("The AI returned an invalid problem format.");
+      }
+
+      // Populate normal form fields
+      setFormData((prev) => ({
+        ...prev,
+
+        title: generatedFormData.title ?? prev.title,
+
+        difficulty: generatedFormData.difficulty ?? prev.difficulty,
+
+        description: generatedFormData.description ?? prev.description,
+
+        input_format: generatedFormData.input_format ?? prev.input_format,
+
+        output_format: generatedFormData.output_format ?? prev.output_format,
+
+        constraints: generatedFormData.constraints ?? prev.constraints,
+
+        example_input: generatedFormData.example_input ?? prev.example_input,
+
+        example_output: generatedFormData.example_output ?? prev.example_output,
+
+        explanation: generatedFormData.explanation ?? prev.explanation,
+
+        starter_code: generatedFormData.starter_code ?? prev.starter_code,
+
+        solution: generatedFormData.solution ?? prev.solution,
+
+        function_name: generatedFormData.function_name ?? prev.function_name,
+
+        tags: Array.isArray(generatedFormData.tags)
+          ? generatedFormData.tags.join(", ")
+          : (generatedFormData.tags ?? prev.tags),
+      }));
+
+      // Populate generated test cases
+      if (
+        Array.isArray(generatedFormData.testCases) &&
+        generatedFormData.testCases.length > 0
+      ) {
+        setTestCases(
+          generatedFormData.testCases.map((testCase) => ({
+            input: testCase.input ?? "",
+
+            expected_output: testCase.expected_output ?? "",
+
+            is_hidden: testCase.is_hidden ?? true,
+          })),
+        );
+      }
+    } catch (error) {
+      console.error("API ERROR:", error);
+      console.error("Response:", error.response);
+      console.error("Response data:", error.response?.data);
+
+      setGenerationError(
+        error.response?.data?.error ??
+          error.response?.data?.message ??
+          error.message ??
+          "Unable to generate problem parameters.",
+      );
+    } finally {
+      setIsGenerating(false);
+    }
+  }
+
+  // ============================================
+  // CREATE PROBLEM
+  // ============================================
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -82,9 +192,13 @@ function ProblemCreation() {
       ...formData,
 
       // Converts:
+      //
       // "Array, Hash Table, Two Pointers"
+      //
       // into:
+      //
       // ["Array", "Hash Table", "Two Pointers"]
+
       tags: formData.tags
         .split(",")
         .map((tag) => tag.trim())
@@ -94,8 +208,10 @@ function ProblemCreation() {
     };
 
     console.log(problemData);
+
     try {
       await apiClient.post("/problems/create/", problemData);
+
       navigate("/problems");
     } catch (error) {
       console.error(error);
@@ -105,10 +221,12 @@ function ProblemCreation() {
   return (
     <>
       <NavBar />
+
       <div className="problem-creation-page">
         <div className="problem-creation-header">
           <div>
             <h1>Create Problem</h1>
+
             <p>Create a new coding challenge for the platform.</p>
           </div>
 
@@ -136,10 +254,63 @@ function ProblemCreation() {
           className="problem-form"
           onSubmit={handleSubmit}
         >
-          {/* Basic Information */}
+          {/* ========================================
+              AI PROBLEM GENERATOR
+          ======================================== */}
+
+          <section className="problem-section">
+            <div className="section-heading">
+              <h2>Generate with AI</h2>
+
+              <p>
+                Describe the coding problem you want to create. The AI will
+                generate the problem parameters and fill in the form below.
+              </p>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="problemPrompt">Problem Description</label>
+
+              <textarea
+                id="problemPrompt"
+                rows="6"
+                value={problemPrompt}
+                onChange={(e) => {
+                  console.log("Textarea changed:", e.target.value);
+                  setProblemPrompt(e.target.value);
+                }}
+              />
+
+              <span className="input-hint">
+                Describe what kind of coding problem you want in normal
+                language.
+              </span>
+            </div>
+
+            {generationError && (
+              <div className="form-group">
+                <span className="input-hint">{generationError}</span>
+              </div>
+            )}
+
+            <button
+              type="button"
+              className="publish-button"
+              onClick={handleGenerateProblemParameters}
+              disabled={isGenerating || !problemPrompt.trim()}
+            >
+              {isGenerating ? "Generating..." : "Generate Problem Parameters"}
+            </button>
+          </section>
+
+          {/* ========================================
+              BASIC INFORMATION
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Basic Information</h2>
+
               <p>Define the problem title and difficulty.</p>
             </div>
 
@@ -167,7 +338,9 @@ function ProblemCreation() {
                 onChange={handleChange}
               >
                 <option value="Easy">Easy</option>
+
                 <option value="Medium">Medium</option>
+
                 <option value="Hard">Hard</option>
               </select>
             </div>
@@ -188,10 +361,14 @@ function ProblemCreation() {
             </div>
           </section>
 
-          {/* Problem Statement */}
+          {/* ========================================
+              PROBLEM STATEMENT
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Problem Statement</h2>
+
               <p>Describe what the user needs to solve.</p>
             </div>
 
@@ -212,10 +389,14 @@ You may assume that each input would have exactly one solution...`}
             </div>
           </section>
 
-          {/* Input / Output */}
+          {/* ========================================
+              INPUT / OUTPUT
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Input & Output</h2>
+
               <p>Explain the expected input and output format.</p>
             </div>
 
@@ -248,10 +429,14 @@ You may assume that each input would have exactly one solution...`}
             </div>
           </section>
 
-          {/* Example */}
+          {/* ========================================
+              EXAMPLE
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Example</h2>
+
               <p>Show the user how the problem works.</p>
             </div>
 
@@ -300,10 +485,14 @@ target = 9`}
             </div>
           </section>
 
-          {/* Constraints */}
+          {/* ========================================
+              CONSTRAINTS
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Constraints</h2>
+
               <p>Define limits for accepted inputs.</p>
             </div>
 
@@ -321,10 +510,14 @@ target = 9`}
             </div>
           </section>
 
-          {/* Starter Code */}
+          {/* ========================================
+              STARTER CODE
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Starter Code</h2>
+
               <p>Code that will initially appear inside the user's editor.</p>
             </div>
 
@@ -339,10 +532,14 @@ target = 9`}
             />
           </section>
 
-          {/* Function Name */}
+          {/* ========================================
+              FUNCTION NAME
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Function Name</h2>
+
               <p>
                 The method that the judge should call inside the Solution class.
               </p>
@@ -368,11 +565,15 @@ target = 9`}
             </div>
           </section>
 
-          {/* Test Cases */}
+          {/* ========================================
+              TEST CASES
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading test-case-heading">
               <div>
                 <h2>Test Cases</h2>
+
                 <p>Test cases are used to validate submitted solutions.</p>
               </div>
 
@@ -390,7 +591,7 @@ target = 9`}
                 <div className="test-case" key={index}>
                   <div className="test-case-top">
                     <div className="test-case-title">
-                      <span>Test Case {index + 1} </span>
+                      <span>Test Case {index + 1}</span>
 
                       <span
                         className={
@@ -415,6 +616,7 @@ target = 9`}
                   </div>
 
                   {/* Visibility */}
+
                   <div className="form-group">
                     <label>Test Case Visibility</label>
 
@@ -474,15 +676,20 @@ target = 9`}
             </div>
           </section>
 
-          {/* Reference Solution */}
+          {/* ========================================
+              REFERENCE SOLUTION
+          ======================================== */}
+
           <section className="problem-section">
             <div className="section-heading">
               <h2>Reference Solution</h2>
+
               <p>
                 Store the correct solution for validation or administrator
                 reference.
               </p>
             </div>
+
             <CodeEditor
               value={formData.solution}
               onChange={(value) =>
@@ -493,6 +700,10 @@ target = 9`}
               }
             />
           </section>
+
+          {/* ========================================
+              BOTTOM ACTIONS
+          ======================================== */}
 
           <div className="bottom-actions">
             <button
