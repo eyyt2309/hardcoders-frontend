@@ -163,42 +163,56 @@ function Dashboard() {
           <section className="dashboard-grid">
             {/* Daily challenge */}
             <div className="dashboard-card daily-challenge">
-              <div className="section-header">
-                <div>
-                  <span className="section-label">DAILY CHALLENGE</span>
+              {dailyChallenge ? (
+                <>
+                  <div className="section-header">
+                    <div>
+                      <span className="section-label">DAILY CHALLENGE</span>
+                      <h2>{dailyChallenge.title}</h2>
+                    </div>
 
-                  <h2>{dailyChallenge.title}</h2>
-                </div>
+                    {dailyChallenge.difficulty === "easy" && (
+                      <span className="difficulty easy">Easy</span>
+                    )}
 
-                {dailyChallenge?.difficulty === "easy" && (
-                  <span className="difficulty easy">Easy</span>
-                )}
+                    {dailyChallenge.difficulty === "medium" && (
+                      <span className="difficulty medium">Medium</span>
+                    )}
 
-                {dailyChallenge?.difficulty === "medium" && (
-                  <span className="difficulty medium">Medium</span>
-                )}
+                    {dailyChallenge.difficulty === "hard" && (
+                      <span className="difficulty hard">Hard</span>
+                    )}
+                  </div>
 
-                {dailyChallenge?.difficulty === "hard" && (
-                  <span className="difficulty hard">Hard</span>
-                )}
-              </div>
+                  <p>{dailyChallenge.description}</p>
 
-              <p>{dailyChallenge.description}.</p>
+                  <div className="problem-tags">
+                    {(dailyChallenge.tags || []).map((tag) => (
+                      <span className="problem-tag" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
 
-              <div className="problem-tags">
-                {(dailyChallenge?.tags || []).map((tag) => (
-                  <span className="problem-tag" key={tag}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
+                  <Link
+                    to={`/problems/${dailyChallenge.slug}`}
+                    className="challenge-button"
+                  >
+                    Solve Challenge
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <div className="section-header">
+                    <div>
+                      <span className="section-label">DAILY CHALLENGE</span>
+                      <h2>No challenge available</h2>
+                    </div>
+                  </div>
 
-              <Link
-                to={`/problems/${dailyChallenge.slug}`}
-                className="challenge-button"
-              >
-                Solve Challenge
-              </Link>
+                  <p>There are currently no problems available.</p>
+                </>
+              )}
             </div>
 
             {/* Progress */}
