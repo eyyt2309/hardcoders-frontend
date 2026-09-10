@@ -222,7 +222,7 @@ function ProblemList() {
               ) : (
                 filteredProblems.map((problem) => (
                   <div
-                    key={problem.id}
+                    key={problem.problem_number}
                     className="problem-row"
                     onClick={() => openProblem(problem.slug)}
                   >
@@ -235,7 +235,7 @@ function ProblemList() {
                     </div>
 
                     <div className="problem-title">
-                      {problem.id}. {problem.title}
+                      {problem.problem_number}. {problem.title}
                     </div>
 
                     <div>
