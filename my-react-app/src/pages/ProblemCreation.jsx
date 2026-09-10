@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Navigate, useNavigate } from "react-router-dom";
 import CodeEditor from "../components/CodeEditor";
@@ -19,10 +19,14 @@ function ProblemCreation() {
     constraints: "",
     example_input: "",
     example_output: "",
+    validator_type: "",
+    validator_name: "",
     explanation: "",
     starter_code: "",
     solution: "",
     function_name: "",
+    parameter_types: "",
+    return_type: "",
     tags: "",
   });
 
@@ -40,6 +44,9 @@ function ProblemCreation() {
   // AI generation state
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState("");
+
+  // Validators
+  const [validators, setValidators] = useState([]);
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -137,11 +144,21 @@ function ProblemCreation() {
 
         example_output: generatedFormData.example_output ?? prev.example_output,
 
+        validator_type: generatedFormData.validator_type ?? prev.validator_type,
+
+        validator_name: generatedFormData.validator_name ?? prev.validator_name,
+
         explanation: generatedFormData.explanation ?? prev.explanation,
 
         starter_code: generatedFormData.starter_code ?? prev.starter_code,
 
         solution: generatedFormData.solution ?? prev.solution,
+
+        parameter_types: Array.isArray(generatedFormData.parameter_types)
+          ? generatedFormData.parameter_types.join(", ")
+          : (generatedFormData.parameter_types ?? prev.parameter_types),
+
+        return_type: generatedFormData.return_type ?? prev.return_type,
 
         function_name: generatedFormData.function_name ?? prev.function_name,
 
@@ -204,6 +221,11 @@ function ProblemCreation() {
         .map((tag) => tag.trim())
         .filter(Boolean),
 
+      parameter_types: formData.parameter_types
+        .split(",")
+        .map((type) => type.trim())
+        .filter(Boolean),
+
       testCases,
     };
 
@@ -217,6 +239,20 @@ function ProblemCreation() {
       console.error(error);
     }
   }
+
+  useEffect(() => {
+    const fetchValidators = async () => {
+      try {
+        const response = await apiClient.get("/problems/validators/");
+
+        setValidators(response.data.validators);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchValidators();
+  }, []);
 
   return (
     <>
@@ -563,6 +599,128 @@ target = 9`}
                 maxSubArray.
               </span>
             </div>
+          </section>
+
+          {/* ========================================
+    FUNCTION TYPES
+======================================== */}
+
+          <section className="problem-section">
+            <div className="section-heading">
+              <h2>Function Types</h2>
+              <p>Define the parameter and return types used by the judge.</p>
+            </div>
+
+            <div className="two-column-grid">
+              <div className="form-group">
+                <label htmlFor="parameter_types">Parameter Types</label>
+
+                <input
+                  id="parameter_types"
+                  name="parameter_types"
+                  type="text"
+                  placeholder="e.g. list[int], int"
+                  value={formData.parameter_types}
+                  onChange={handleChange}
+                  required
+                />
+
+                <span className="input-hint">
+                  Enter parameter types in function order, separated by commas.
+                  Example: list[int], int or ListNode, ListNode.
+                </span>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="return_type">Return Type</label>
+
+                <select
+                  id="return_type"
+                  name="return_type"
+                  value={formData.return_type}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select return type</option>
+
+                  <option value="int">int</option>
+                  <option value="float">float</option>
+                  <option value="str">str</option>
+                  <option value="bool">bool</option>
+
+                  <option value="list[int]">list[int]</option>
+
+                  <option value="list[float]">list[float]</option>
+
+                  <option value="list[str]">list[str]</option>
+
+                  <option value="list[bool]">list[bool]</option>
+
+                  <option value="list[list[int]]">list[list[int]]</option>
+
+                  <option value="list[list[float]]">list[list[float]]</option>
+
+                  <option value="list[list[str]]">list[list[str]]</option>
+
+                  <option value="ListNode">ListNode</option>
+
+                  <option value="TreeNode">TreeNode</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          {/* ========================================
+              VALIDATORS
+          =========================================*/}
+
+          <section className="problem-section">
+            <div className="section-heading validator-heading">
+              <div>
+                <h2>Validators</h2>
+              </div>
+              <p>The type of validator that this problem should use</p>
+            </div>
+            <div className="form-group">
+              <label htmlFor="validator_type">Validator Type</label>
+
+              <select
+                id="validator_type"
+                name="validator_type"
+                value={formData.validator_type}
+                onChange={handleChange}
+              >
+                <option value="exact">Exact</option>
+
+                <option value="unordered">Unordered</option>
+
+                <option value="nested_unordered">Nested Unordered</option>
+
+                <option value="float">Float</option>
+
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+            {formData.validator_type == "custom" && (
+              <div className="form-group">
+                <label htmlFor="validator_name">Validator Name</label>
+
+                <select
+                  id="validator_name"
+                  name="validator_name"
+                  value={formData.validator_name}
+                  onChange={handleChange}
+                >
+                  <option value="">Select a validator</option>
+
+                  {validators.map((validator) => (
+                    <option key={validator} value={validator}>
+                      {validator}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </section>
 
           {/* ========================================
